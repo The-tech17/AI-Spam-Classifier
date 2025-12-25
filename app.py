@@ -5,13 +5,13 @@ from dotenv import load_dotenv
 
 # 1. Load Secrets
 load_dotenv()
-api_key = os.getenv("GEMINI_API_KEY")
+api_key = st.secrets.get("GEMINI_API_KEY") or os.getenv("GEMINI_API_KEY")
 
 # 2. Initialize the New Client
 if api_key:
     client = genai.Client(api_key=api_key)
 else:
-    st.error("Missing API Key! Please add it to your .env file.")
+    st.error("Missing API Key! Please add 'GEMINI_API_KEY' to Streamlit Secrets.")
     st.stop()
 
 # 3. UI Setup
@@ -66,4 +66,5 @@ if st.button("Classify Email"):
                 st.error(f"Analysis Error: {e}")
 
 st.divider()
+
 st.caption("Secured by Gemini 3 Flash • Google GenAI SDK v1.56")
